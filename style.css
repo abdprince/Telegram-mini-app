@@ -23,7 +23,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 100;
+    z-index: 1000 !important;
 }
 
 .nav-brand {
@@ -44,10 +44,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     overflow: hidden;
     border: 3px solid rgba(255,255,255,0.3);
     transition: transform 0.3s, border-color 0.3s;
+
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 1001;
 }
 
 .avatar-circle:hover {
@@ -89,21 +93,26 @@ body {
 
 /* ===== صفحة الملف الشخصي ===== */
 .profile-page {
-    display: none;
+    display: none; /* مخفي افتراضياً */
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    z-index: 200;
-    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.8); /* خلفية داكنة شفافة */
+    z-index: 2000; /* أعلى من الناف بار */
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .profile-page.active {
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
+    opacity: 1;
+    transform: scale(1);
 }
 
 .profile-container {
@@ -115,6 +124,8 @@ body {
     text-align: center;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     animation: slideUp 0.3s ease;
+    transform: scale(1);
+    transition: transform 0.3s ease;
 }
 
 @keyframes slideUp {
