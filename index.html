@@ -27,11 +27,21 @@
         <h1>مرحباً بك</h1>
         <p>اضغط على الزر لجمع النقاط!</p>
         
-        <button class="points-btn" id="collectBtn" onclick="addPoint()">
-            <span class="btn-icon">👆</span>
-            <span class="btn-text">اضغط للحصول على نقطة</span>
-            <span class="btn-points">+1</span>
-        </button>
+        <!-- عملة النقاط -->
+<div class="coin-container">
+    <div class="coin" id="coin" onclick="addPoint()">
+        <div class="coin-inner">
+            <div class="coin-front">
+                <span class="coin-symbol">₿</span>
+                <span class="coin-text">نقطة</span>
+            </div>
+            <div class="coin-back">
+                <span class="coin-plus">+1</span>
+            </div>
+        </div>
+    </div>
+    <div class="coin-shadow"></div>
+</div>
         
         <p class="total-points">مجموع نقاطك: <strong id="totalDisplay">0</strong></p>
     </main>
