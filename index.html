@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <!-- تحميل مكتبة تلغرام أولاً -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
@@ -12,54 +11,108 @@
     <nav class="navbar">
         <div class="nav-brand">تطبيقي</div>
         <div class="nav-user">
-            <!-- تأكد من وجود id صحيح -->
-            <div class="avatar-circle" id="navAvatar" role="button" tabindex="0">
+            <div class="avatar-circle" id="navAvatar" onclick="openProfile()">
                 <span id="navInitial">👤</span>
-                <img id="navImg" src="" alt="صورة المستخدم" style="display: none;">
+                <img id="navImg" src="" alt="" style="display: none;">
             </div>
         </div>
     </nav>
 
     <!-- الصفحة الرئيسية -->
     <main class="main-content">
-        <div class="empty-state">
-            <h1>مرحباً بك</h1>
-            <p>اضغط على صورتك في الأعلى</p>
-        </div>
+        <h1>مرحباً بك</h1>
+        <p>اضغط على صورتك في الأعلى</p>
     </main>
 
     <!-- صفحة الملف الشخصي -->
-    <div class="profile-page" id="profilePage">
-        <div class="profile-container">
-            <div class="profile-avatar-large">
+    <div id="profileOverlay" class="overlay" onclick="closeProfileOutside(event)">
+        <div class="profile-box" onclick="event.stopPropagation()">
+            <div class="profile-avatar">
                 <span id="profileInitial">👤</span>
                 <img id="profileImg" src="" alt="" style="display: none;">
             </div>
-
-            <div class="profile-info">
-                <div class="info-item">
-                    <span class="label">الاسم</span>
-                    <span class="value" id="userName">-</span>
-                </div>
-                <div class="info-item">
-                    <span class="label">اسم المستخدم</span>
-                    <span class="value" id="userUsername">-</span>
-                </div>
-                <div class="info-item">
-                    <span class="label">المعرف</span>
-                    <span class="value" id="userId">-</span>
-                </div>
-                <div class="info-item">
-                    <span class="label">اللغة</span>
-                    <span class="value" id="userLanguage">-</span>
-                </div>
+            
+            <div class="user-data">
+                <p><strong>الاسم:</strong> <span id="userName">-</span></p>
+                <p><strong>المستخدم:</strong> <span id="userUsername">-</span></p>
+                <p><strong>المعرف:</strong> <span id="userId">-</span></p>
+                <p><strong>اللغة:</strong> <span id="userLanguage">-</span></p>
             </div>
-
-            <button class="close-btn" id="closeBtn" type="button">إغلاق</button>
+            
+            <button class="close-btn" onclick="closeProfile()">إغلاق</button>
         </div>
     </div>
 
-    <!-- تحميل JavaScript في النهاية -->
-    <script src="app.js"></script>
+    <!-- JavaScript مباشر في HTML (مضمون 100%) -->
+    <script>
+        // ===== بيانات المستخدم =====
+        let userData = null;
+
+        // ===== عند تحميل الصفحة =====
+        window.onload = function() {
+            console.log('✅ الصفحة محملة');
+            
+            // جلب بيانات تلغرام
+            if (window.Telegram && window.Telegram.WebApp) {
+                const tg = window.Telegram.WebApp;
+                tg.expand();
+                
+                userData = tg.initDataUnsafe?.user;
+                console.log('بيانات المستخدم:', userData);
+                
+                if (userData) {
+                    updateProfile(userData);
+                }
+            } else {
+                console.log('⚠️ لا يوجد Telegram WebApp');
+            }
+        };
+
+        // ===== تحديث البيانات =====
+        function updateProfile(user) {
+            const name = user.first_name + ' ' + (user.last_name || '');
+            const initial = user.first_name.charAt(0).toUpperCase();
+            
+            // الناف بار
+            document.getElementById('navInitial').textContent = initial;
+            if (user.photo_url) {
+                document.getElementById('navImg').src = user.photo_url;
+                document.getElementById('navImg').style.display = 'block';
+                document.getElementById('navInitial').style.display = 'none';
+            }
+            
+            // الصفحة الداخلية
+            document.getElementById('profileInitial').textContent = initial;
+            if (user.photo_url) {
+                document.getElementById('profileImg').src = user.photo_url;
+                document.getElementById('profileImg').style.display = 'block';
+                document.getElementById('profileInitial').style.display = 'none';
+            }
+            
+            // النصوص
+            document.getElementById('userName').textContent = name;
+            document.getElementById('userUsername').textContent = user.username ? '@' + user.username : 'غير متوفر';
+            document.getElementById('userId').textContent = user.id;
+            document.getElementById('userLanguage').textContent = user.language_code || 'غير معروف';
+        }
+
+        // ===== فتح الصفحة =====
+        function openProfile() {
+            console.log('🖱️ تم النقر!');
+            document.getElementById('profileOverlay').style.display = 'flex';
+        }
+
+        // ===== إغلاق الصفحة =====
+        function closeProfile() {
+            document.getElementById('profileOverlay').style.display = 'none';
+        }
+
+        // ===== إغلاق بالنقر خارج =====
+        function closeProfileOutside(event) {
+            if (event.target.id === 'profileOverlay') {
+                closeProfile();
+            }
+        }
+    </script>
 </body>
 </html>
