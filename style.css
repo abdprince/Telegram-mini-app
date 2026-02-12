@@ -164,11 +164,11 @@ body {
     align-items: center;
     gap: 8px;
     box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.1s, box-shadow 0.9s;
 }
 
 .points-btn:hover {
-    transform: translateY(-30px);
+    transform: translateY(-3px);
     box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
 }
 
