@@ -1,71 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيقي</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-</head>
-<body>
-    <!-- الناف بار -->
-    <nav class="navbar">
-        <div class="nav-points" id="navPoints">
-            ⭐ <span id="pointsDisplay">0</span>
-        </div>
-        <div class="nav-brand">تطبيقي</div>
-        <div class="nav-user">
-            <div class="avatar-circle" id="navAvatar" onclick="openProfile()">
-                <span id="navInitial">👤</span>
-                <img id="navImg" src="" alt="" style="display: none;">
-            </div>
-        </div>
-    </nav>
-
-    <!-- الصفحة الرئيسية -->
-    <main class="main-content">
-        <h1>مرحباً بك</h1>
-        <p>اضغط على الزر لجمع النقاط!</p>
-        
-        <!-- عملة النقاط -->
-<div class="coin-container">
-    <div class="coin" id="coin" onclick="addPoint()">
-        <div class="coin-inner">
-            <div class="coin-front">
-                <span class="coin-symbol">₿</span>
-                <span class="coin-text">نقطة</span>
-            </div>
-            <div class="coin-back">
-                <span class="coin-plus">+1</span>
-            </div>
-        </div>
-    </div>
-    <div class="coin-shadow"></div>
-</div>
-        
-        <p class="total-points">مجموع نقاطك: <strong id="totalDisplay">0</strong></p>
-    </main>
-
-    <!-- صفحة الملف الشخصي -->
-    <div id="profileOverlay" class="overlay" onclick="closeProfileOutside(event)">
-        <div class="profile-box" onclick="event.stopPropagation()">
-            <div class="profile-avatar">
-                <span id="profileInitial">👤</span>
-                <img id="profileImg" src="" alt="" style="display: none;">
-            </div>
-            
-            <div class="user-data">
-                <p><strong>الاسم:</strong> <span id="userName">-</span></p>
-                <p><strong>المستخدم:</strong> <span id="userUsername">-</span></p>
-                <p><strong>المعرف:</strong> <span id="userId">-</span></p>
-                <p><strong>اللغة:</strong> <span id="userLanguage">-</span></p>
-            </div>
-            
-            <button class="close-btn" onclick="closeProfile()">إغلاق</button>
-        </div>
-    </div>
-
-    <!-- ✅ تحميل JavaScript من ملف منفصل -->
-    <script src="app.js"></script>
-</body>
-</html>
