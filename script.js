@@ -159,3 +159,15 @@ class TelegramApp {
 
 // ===== تشغيل التطبيق =====
 const app = new TelegramApp();
+
+// اختبار بسيط - أضف في نهاية الملف
+setTimeout(() => {
+    console.log('🧪 اختبار يدوي');
+    const navAvatar = document.getElementById('navAvatar');
+    console.log('العنصر موجود؟', !!navAvatar);
+    
+    // محاكاة نقر
+    if (navAvatar) {
+        navAvatar.style.border = '3px solid red'; // تأكد من ظهوره
+    }
+}, 1000);
