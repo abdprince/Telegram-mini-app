@@ -3,8 +3,8 @@
 // ==========================================
 
 // ===== إعداد Supabase =====
-const SUPABASE_URL = 'https://XXXXXXXX.supabase.co'; // ← ضع رابطك هنا
-const SUPABASE_KEY = 'eyJhbG...'; // ← ضع المفتاح هنا
+const SUPABASE_URL = 'https://ijbrvdeowesiriqyissb.supabase.co'; // ← ضع رابطك هنا
+const SUPABASE_KEY = 'sb_publishable_yiPtNm3_-_Wl_eTHF92qPg_EMRhYEE6'; // ← ضع المفتاح هنا
 
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
