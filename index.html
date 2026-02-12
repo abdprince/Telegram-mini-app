@@ -9,6 +9,11 @@
 <body>
     <!-- الناف بار -->
     <nav class="navbar">
+
+         <div class="nav-points" id="navPoints">
+        ⭐ <span id="pointsDisplay">0</span>
+    </div>
+        
         <div class="nav-brand">تطبيقي</div>
         <div class="nav-user">
             <div class="avatar-circle" id="navAvatar" onclick="openProfile()">
@@ -18,11 +23,20 @@
         </div>
     </nav>
 
-    <!-- الصفحة الرئيسية -->
-    <main class="main-content">
-        <h1>مرحباً بك</h1>
-        <p>اضغط على صورتك في الأعلى</p>
-    </main>
+<!-- الصفحة الرئيسية -->
+<main class="main-content">
+    <h1>مرحباً بك</h1>
+    <p>اضغط على الزر لجمع النقاط!</p>
+    
+    <!-- زر النقاط في المنتصف -->
+    <button class="points-btn" id="collectBtn" onclick="addPoint()">
+        <span class="btn-icon">👆</span>
+        <span class="btn-text">اضغط للحصول على نقطة</span>
+        <span class="btn-points">+1</span>
+    </button>
+    
+    <p class="total-points">مجموع نقاطك: <strong id="totalDisplay">0</strong></p>
+</main>
 
     <!-- صفحة الملف الشخصي -->
     <div id="profileOverlay" class="overlay" onclick="closeProfileOutside(event)">
