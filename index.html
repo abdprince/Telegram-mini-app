@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيقي</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <!-- الناف بار الديناميكي -->
+    <nav class="navbar">
+        <div class="nav-brand">تطبيقي</div>
+        <div class="nav-user">
+            <div class="avatar-circle" id="navAvatar">
+                <span id="navInitial">👤</span>
+                <img id="navImg" src="" alt="" style="display: none;">
+            </div>
+        </div>
+    </nav>
+
+    <!-- الصفحة الرئيسية الفارغة -->
+    <main class="main-content">
+        <div class="empty-state">
+            <h1>مرحباً بك في التطبيق</h1>
+            <p>اضغط على صورتك في الأعلى لعرض الملف الشخصي</p>
+        </div>
+    </main>
+
+    <!-- صفحة الملف الشخصي (مخفية افتراضياً) -->
+    <div class="profile-page" id="profilePage">
+        <div class="profile-container">
+            <!-- الصورة الشخصية الكبيرة -->
+            <div class="profile-avatar-large">
+                <span id="profileInitial">👤</span>
+                <img id="profileImg" src="" alt="" style="display: none;">
+            </div>
+
+            <!-- بيانات المستخدم -->
+            <div class="profile-info">
+                <div class="info-item">
+                    <span class="label">الاسم</span>
+                    <span class="value" id="userName">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">اسم المستخدم</span>
+                    <span class="value" id="userUsername">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">المعرف</span>
+                    <span class="value" id="userId">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">اللغة</span>
+                    <span class="value" id="userLanguage">-</span>
+                </div>
+            </div>
+
+            <!-- زر الإغلاق -->
+            <button class="close-btn" id="closeBtn">إغلاق</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
