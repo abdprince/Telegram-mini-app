@@ -136,3 +136,63 @@ body {
 .close-btn:hover {
     background: #c82333;
 }
+
+/* ===== نقاط الناف بار (اليسار) ===== */
+.nav-points {
+    background: rgba(255,255,255,0.2);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* ===== زر النقاط في المنتصف ===== */
+.points-btn {
+    margin: 30px auto;
+    padding: 20px 40px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.points-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+}
+
+.points-btn:active {
+    transform: scale(0.95);
+}
+
+.btn-icon {
+    font-size: 30px;
+}
+
+.btn-text {
+    font-size: 16px;
+}
+
+.btn-points {
+    background: rgba(255,255,255,0.3);
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.total-points {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #667eea;
+}
