@@ -61,20 +61,63 @@ function updatePointsDisplay() {
     if (totalDisplay) totalDisplay.textContent = userPoints;
 }
 
-// إضافة نقطة جديدة
+// إضافة نقطة مع تأثيرات بصرية
 function addPoint() {
+    const coin = document.getElementById('coin');
+    
+    // 1. زيادة النقاط
     userPoints += 1;
     updatePointsDisplay();
-    savePoints();
     
-    // تأثير بصري على الزر
-    const btn = document.getElementById('collectBtn');
-    if (btn) {
-        btn.style.transform = 'scale(0.9)';
-        setTimeout(() => {
-            btn.style.transform = 'scale(1)';
-        }, 100);
+    // 2. تأثير الدوران
+    coin.classList.add('spin');
+    setTimeout(() => coin.classList.remove('spin'), 600);
+    
+    // 3. إنشاء جسيمات ذهبية
+    createParticles(coin);
+    
+    // 4. تأثير الاهتزاز
+    if (navigator.vibrate) {
+        navigator.vibrate(50); // اهتزاز للهواتف
     }
+    
+    // 5. حفظ البيانات
+    localStorage.setItem('points', userPoints);
+    
+    console.log('⭐ نقطة جديدة! المجموع:', userPoints);
+}
+
+// إنشاء جسيمات ذهبية
+function createParticles(coin) {
+    const rect = coin.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    for (let i = 0; i < 8; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        // اتجاه عشوائي
+        const angle = (i / 8) * Math.PI * 2;
+        const distance = 100 + Math.random() * 50;
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance;
+        
+        particle.style.setProperty('--x', `${x}px`);
+        particle.style.setProperty('--y', `${y}px`);
+        particle.style.left = `${centerX}px`;
+        particle.style.top = `${centerY}px`;
+        
+        // لون عشوائي ذهبي/برتقالي
+        const colors = ['#ffd700', '#ffed4e', '#ff6b6b', '#4ecdc4'];
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        
+        document.body.appendChild(particle);
+        
+        // إزالة بعد الانتهاء
+        setTimeout(() => particle.remove(), 800);
+    }
+}
     
     console.log('⭐ نقطة جديدة! المجموع:', userPoints);
 }
