@@ -2,27 +2,42 @@
 class TelegramApp {
     constructor() {
         this.user = null;
-        this.init();
+        this.isTelegram = false;
+        
+        // انتظر حتى يتم تحميل Telegram WebApp
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.init());
+        } else {
+            this.init();
+        }
     }
 
     init() {
-        // تهيئة Telegram WebApp
+        console.log('🚀 بدء تهيئة التطبيق...');
+        
+        // التحقق من Telegram WebApp
         if (window.Telegram?.WebApp) {
+            this.isTelegram = true;
             const tg = window.Telegram.WebApp;
-            tg.expand(); // توسيع التطبيق
+            
+            // توسيع التطبيق
+            tg.expand();
+            tg.ready(); // إعلام تلغرام بأن التطبيق جاهز
             
             // جلب بيانات المستخدم
             this.user = tg.initDataUnsafe?.user;
             
+            console.log('📱 بيانات تلغرام:', tg.initDataUnsafe);
+            
             if (this.user) {
+                console.log('✅ تم العثور على المستخدم:', this.user);
                 this.updateUI();
-                console.log('✅ تم جلب بيانات المستخدم:', this.user);
             } else {
-                console.log('❌ لم يتم العثور على بيانات المستخدم');
+                console.log('⚠️ لا يوجد مستخدم، استخدام بيانات افتراضية');
                 this.setDefaultUser();
             }
         } else {
-            console.log('⚠️ التطبيق يعمل خارج تلغرام');
+            console.log('❌ التطبيق يعمل خارج تلغرام');
             this.setDefaultUser();
         }
 
@@ -34,63 +49,113 @@ class TelegramApp {
         const { first_name, last_name, username, id, language_code, photo_url } = this.user;
         
         const fullName = `${first_name} ${last_name || ''}`.trim();
-        const initial = first_name.charAt(0).toUpperCase();
+        const initial = first_name ? first_name.charAt(0).toUpperCase() : '👤';
 
-        // تحديث الناف بار
-        document.getElementById('navInitial').textContent = initial;
+        // ===== تحديث الناف بار =====
+        const navInitial = document.getElementById('navInitial');
+        const navImg = document.getElementById('navImg');
         
-        if (photo_url) {
-            document.getElementById('navImg').src = photo_url;
-            document.getElementById('navImg').style.display = 'block';
-            document.getElementById('navInitial').style.display = 'none';
+        if (navInitial) navInitial.textContent = initial;
+        
+        if (photo_url && navImg) {
+            navImg.src = photo_url;
+            navImg.style.display = 'block';
+            navInitial.style.display = 'none';
         }
 
-        // تحديث صفحة الملف الشخصي
-        document.getElementById('profileInitial').textContent = initial;
+        // ===== تحديث صفحة الملف الشخصي =====
+        const profileInitial = document.getElementById('profileInitial');
+        const profileImg = document.getElementById('profileImg');
         
-        if (photo_url) {
-            document.getElementById('profileImg').src = photo_url;
-            document.getElementById('profileImg').style.display = 'block';
-            document.getElementById('profileInitial').style.display = 'none';
+        if (profileInitial) profileInitial.textContent = initial;
+        
+        if (photo_url && profileImg) {
+            profileImg.src = photo_url;
+            profileImg.style.display = 'block';
+            profileInitial.style.display = 'none';
         }
 
-        // تحديث البيانات النصية
-        document.getElementById('userName').textContent = fullName;
-        document.getElementById('userUsername').textContent = username ? `@${username}` : 'غير متوفر';
-        document.getElementById('userId').textContent = id;
-        document.getElementById('userLanguage').textContent = language_code || 'غير معروف';
+        // ===== تحديث البيانات النصية =====
+        const setText = (id, text) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = text;
+        };
+
+        setText('userName', fullName);
+        setText('userUsername', username ? `@${username}` : 'غير متوفر');
+        setText('userId', id || '-');
+        setText('userLanguage', language_code || 'غير معروف');
     }
 
-    // بيانات افتراضية إذا لم يكن هناك تلغرام
+    // بيانات افتراضية
     setDefaultUser() {
-        document.getElementById('userName').textContent = 'زائر';
-        document.getElementById('userUsername').textContent = 'غير متوفر';
-        document.getElementById('userId').textContent = '-';
-        document.getElementById('userLanguage').textContent = '-';
+        const setText = (id, text) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = text;
+        };
+
+        setText('userName', 'زائر');
+        setText('userUsername', 'غير متوفر');
+        setText('userId', '-');
+        setText('userLanguage', '-');
     }
 
-    // إعداد مستمعي الأحداث
+    // ===== إعداد الأحداث =====
     setupEventListeners() {
+        console.log('🔧 إعداد مستمعي الأحداث...');
+
         // فتح صفحة الملف الشخصي
-        document.getElementById('navAvatar').addEventListener('click', () => {
-            document.getElementById('profilePage').classList.add('active');
-        });
+        const navAvatar = document.getElementById('navAvatar');
+        const profilePage = document.getElementById('profilePage');
+        const closeBtn = document.getElementById('closeBtn');
+
+        if (navAvatar) {
+            navAvatar.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('🖱️ تم النقر على الصورة!');
+                
+                if (profilePage) {
+                    profilePage.style.display = 'flex';
+                    // تأخير بسيط لإضافة الكلاس للأنيميشن
+                    setTimeout(() => {
+                        profilePage.classList.add('active');
+                    }, 10);
+                }
+            });
+            console.log('✅ تم ربط حدث النقر على الصورة');
+        } else {
+            console.error('❌ لم يتم العثور على navAvatar');
+        }
 
         // إغلاق صفحة الملف الشخصي
-        document.getElementById('closeBtn').addEventListener('click', () => {
-            document.getElementById('profilePage').classList.remove('active');
-        });
+        if (closeBtn) {
+            closeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('🔘 تم النقر على زر الإغلاق');
+                
+                if (profilePage) {
+                    profilePage.classList.remove('active');
+                    setTimeout(() => {
+                        profilePage.style.display = 'none';
+                    }, 300); // انتظر انتهاء الأنيميشن
+                }
+            });
+        }
 
         // إغلاق بالنقر خارج الصندوق
-        document.getElementById('profilePage').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('profilePage')) {
-                document.getElementById('profilePage').classList.remove('active');
-            }
-        });
+        if (profilePage) {
+            profilePage.addEventListener('click', (e) => {
+                if (e.target === profilePage) {
+                    profilePage.classList.remove('active');
+                    setTimeout(() => {
+                        profilePage.style.display = 'none';
+                    }, 300);
+                }
+            });
+        }
     }
 }
 
-// تشغيل التطبيق عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', () => {
-    new TelegramApp();
-});
+// ===== تشغيل التطبيق =====
+const app = new TelegramApp();
